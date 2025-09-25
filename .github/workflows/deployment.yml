@@ -17,7 +17,6 @@ env:
     
 jobs:
     deploy:
-        needs: build
         runs-on: ubuntu-latest
         steps: 
             - name: Checkout code
@@ -47,4 +46,4 @@ jobs:
                     
 
             - name: Refresh ArgoCD App and Sync
-              run: argocd app sync demo-prod    
+              run: argocd app sync demo-release   
