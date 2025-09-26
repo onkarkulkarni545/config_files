@@ -3,7 +3,7 @@ name: GitOps-Pipeline with ArgoCD
 on: 
     push:
         branches: 
-            - main
+            - release
         
 env: 
     PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
