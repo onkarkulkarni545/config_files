@@ -1,20 +1,59 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: node-app-deployment
+  name: my-app-stable
 spec:
-  replicas: 2
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-preview
+spec:
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 8080
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  strategy:
+    blueGreen:
+      activeService: my-app-stable
+      previewService: my-app-preview
+      autoPromotionEnabled: true
+      autoPromotionSeconds: 0
+  progressDeadlineSeconds: 60   # rollback if pods not healthy in 60s
   selector:
     matchLabels:
-      app: node-app
+      app: my-app
   template:
     metadata:
       labels:
-        app: node-app
+        app: my-app
     spec:
       containers:
-      - name: node-app
-        image: onkarkulkarni545/my-app:89cb7f102ee2462dc900a6943501a1199577cf23
-        ports:
-        - containerPort: 3000
+        - name: my-app
+          image: docker.io/onkarkulkarni545/my-app:89cb7f102ee2462dc900a6943501a1199577cf23
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:         
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
 
