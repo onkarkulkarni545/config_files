@@ -31,6 +31,15 @@ jobs:
                   chmod +x ./kubectl
                   sudo mv ./kubectl /usr/local/bin/kubectl
 
+            - name: Update Rollout image tag
+              run: |
+                 sed -i "s#docker.io.*/my-app:.*#docker.io/${{ secrets.DOCKERHUB_USERNAME }}/my-app:${IMAGE_TAG}#g" rollout.yml
+                 git config --global user.name "${{ secrets.GIT_USERNAME }}"
+                  git config --global user.email "${{ secrets.GIT_EMAIL }}"
+                 git add rollout.yml
+                 git commit -m "Update rollout image to $IMAGE_TAG"
+                 git push origin release
+
             - name: Install ArgoCD CLI
               run: | 
                   curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
