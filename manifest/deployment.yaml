@@ -45,7 +45,7 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: docker.io/onkarkulkarni545/my-app:7799827c2439b697fd9230269483c40e1df27abf
+          image: docker.io/onkarkulkarni545/my-app:eead055610646ad7f643bee5b5cac6a7275d90d1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
