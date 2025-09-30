@@ -33,7 +33,7 @@ spec:
       activeService: my-app-stable
       previewService: my-app-preview
       autoPromotionEnabled: true
-      autoPromotionSeconds: 0          # (optional) promote immediately if healthy
+      
       scaleDownDelaySeconds: 0         # immediately scale down failed preview pods
       abortScaleDownDelaySeconds: 0
   progressDeadlineSeconds: 30
