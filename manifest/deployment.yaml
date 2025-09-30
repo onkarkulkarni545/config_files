@@ -34,11 +34,7 @@ spec:
       previewService: my-app-preview
       autoPromotionEnabled: true
       
-      scaleDownDelaySeconds: 0         # immediately scale down failed preview pods
-      abortScaleDownDelaySeconds: 0
-  progressDeadlineSeconds: 30
-  progressDeadlineAbort: true          # <— important: abort rollout if not Ready in time
-  revisionHistoryLimit: 1
+    
     
   progressDeadlineSeconds: 30   # rollback if pods not healthy in 60s
   selector:
